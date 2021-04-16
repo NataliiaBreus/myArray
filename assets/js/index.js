@@ -1,64 +1,55 @@
 'use strict';
-function getRandomIntInclusive (min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(Math.random() * (max-min+1)) + min;
+// Даны числа, найти минимальное и максимальное значение
+
+const arr = [4, -2, 5, 19, -130, 0, 10];
+const arr2 = [12, 15, 20, 25, 59, 79];
+/**
+ * get maximum value from the array
+ * @param {array} array
+ * @returns {number} 
+ */ 
+function getMax(array) {
+  if(!Array. isArray(array)) return;
+  let result = array[0];
+  for(let i = 1; i < array.length; i++) {
+    if (array[i] > result) result = array[i];
+  }
+  return result;
 }
 
-const numsArr = [];
-for (let i = 0; i<10; i++){
-  numsArr.push(getRandomIntInclusive(100, 200));
+/**
+ * get minimum value from the array
+ * @param {array} array
+ * @returns {number}
+ */
+function getMin(array) {
+  if (!Array.isArray(array)) return;
+  let result = array[0];
+  for (let i = 1; i < array.length; i++) {
+    if (array[i] < result) result = array[i];
+  }
+  return result;
 }
+console.log('min: ${getMin(arr)} : \n max : ${getMax(arr)}');
 
-function User(firstName, lastName, email, age, isMale, isSubscribed = false){
-  this.firstName = firstName;
-  this.lastName = lastName;
-  this.email = email;
-  this.age = age;
-  this.isMale = isMale;
-  this.isSubscribed = isSubscribed;
+//*** ver 2 *** 
+
+console.log ('Math.min.apply:', Math.min.apply(null, arr));
+console.log ('Math.max.apply:', Math.max.apply(null, arr));
+
+//*** ver 3*** 
+
+Array.prototype.min = getMin3;
+function getMin3(){
+  if (!Array.isArray(this)) return;
+  let result = this[0];
+  for(let i = 1; i < this.length; i++){
+    if(this[i] < result) result = this[i]
+  }
+  return result;
 }
-const NATIONALITIES = [
-  'uk',
-  'us',
-  'bg',
-  'ru',
-  'uk',
-  'fr',
-]
+console.log ("Version 3 min:", arr.min());
+console.log('arr.min() ===arr2.min() = ', arr.min)
 
-User.prototype = new UserProto();
-function UserProto(){
-this.getFullName = function(){
-  return `${this.firstName} ${this.lastName}`;
-}
-}
- function getRandomUsers (amount){
-   const usersArray = [];
-   for (let i = 0; i < amount; i++){
-     usersArray.push(
-       new User(
-         `Name${i}`, //first name
-         `Surname${i}`, // last name
-         `user${i}@gmail.com`, //email
-         getRandomIntInclusive(10, 50), // age
-         getRandomNationality(),
-         Math.random() < 0.5, // isMale
-         Math.random() <0.5 // isSubscribed
-       )
-     );
-   }
-   return usersArray;
- }
 
- function getRandomNationality(){
-   return NATIONALITIES [getRandomIntInclusive(0,NATIONALITIES.length - 1)];
- }
-
- const userList = getRandomUsers(100);
-
- function getSubscribedAdultWoman(arr){
- return arr.filter(function(user){
-  return user.age >= 18 && !user.isMale && user.isSubscribed;
-});
- }
  
